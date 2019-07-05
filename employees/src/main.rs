@@ -7,7 +7,7 @@
 use std::env;
 use std::collections::HashMap;
 
-fn build_table(args: &Vec<String>) -> HashMap<String, Vec<String>> {
+fn build_table() -> HashMap<String, Vec<String>> {
     let mut employee_table: HashMap<String, Vec<String>> = HashMap::new();
     employee_table.insert(String::from("Sales"), vec![String::from("Aaron"), String::from("Danny")]);
     employee_table.insert(String::from("IT"), vec![String::from("Billy"), String::from("Erin")]);
@@ -31,8 +31,14 @@ fn add_user(username: String, department: String, table: &mut HashMap<String, Ve
 }
 
 fn remove_user(username: String, department: String, table: &mut HashMap<String, Vec<String>>) {
-    println!("Removing {} from {}", username, department);
-    // Still to implement
+    let no_match = vec![String::from("No match")];
+    let old_list = match table.get(&department) {
+        Some(x) => x,
+        None => &no_match,
+    };
+    // Still need to implement removing the specified name from old_list
+    println!("{:?}", old_list);
+    
 }
 
 fn list_employees_in_department(department: String, table: &HashMap<String, Vec<String>>) {
@@ -48,7 +54,7 @@ fn list_employees_in_department(department: String, table: &HashMap<String, Vec<
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let mut employee_table = build_table(&args);
+    let mut employee_table = build_table();
 
     if args.len() == 1 { // if no args supplied, assume user wants printout of entire table
         println!("{:#?}", employee_table);
