@@ -36,9 +36,14 @@ fn remove_user(username: String, department: String, table: &mut HashMap<String,
         Some(x) => x,
         None => &no_match,
     };
-    // Still need to implement removing the specified name from old_list
-    println!("{:?}", old_list);
-    
+    println!("Removing {} from {}", &username, &department);
+    let new_list: Vec<String> = old_list.into_iter()
+                                        .filter(|&v| v != &username)
+                                        .map(|v| String::from(v))
+                                        .collect();
+    table.insert(department, new_list);
+    // I suspect there'll be an easier way to do the above removing-value-from-HashMap operation
+    // but I can't find it. At least this works.
 }
 
 fn list_employees_in_department(department: String, table: &HashMap<String, Vec<String>>) {
