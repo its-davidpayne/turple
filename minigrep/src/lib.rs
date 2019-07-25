@@ -13,6 +13,9 @@ impl Config {
         if args.len() < 3 {
             return Err("not enough arguments");
         }
+        if args.len() > 3 {
+            return Err("Too many arguments");
+        }
         let query = args[1].clone();
         let filename = args[2].clone();
 
@@ -69,5 +72,24 @@ Pick three.";
         let emptyvec: Vec<String> = Vec::new();
         
         assert_eq!(emptyvec, search(query, contents));
+    }
+
+    #[test]
+    fn missing_clargs() {
+        let args = vec!["only_argument".to_string()];
+        let config = Config::new(&args);
+        
+        assert!(config.is_err());
+    }
+
+    #[test]
+    fn extra_clargs() {
+        let args = vec!["one".to_string(),
+                        "two".to_string(), 
+                        "three".to_string(), 
+                        "four".to_string()];
+        let config = Config::new(&args);
+
+        assert!(config.is_err());
     }
 }  
